@@ -103,10 +103,7 @@ async def handle_sendall(message: Message, state: FSMContext):
 @router.message(Command("test1"))
 async def handle_sendall(message: Message, state: FSMContext):
     if message.chat.id == 654148701:
-        for row in range(len(localdata.localUsers)):
-            
-            # if await function.send_message_to_users_handler(row[1], message.text, False, message):
-            print(f'user - {localdata.localUsers[row]["userid"]}')
+        message.answer("чяс")
             
 
 @router.message(Command("regsql"))

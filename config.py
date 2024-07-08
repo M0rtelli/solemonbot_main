@@ -1,7 +1,7 @@
-is_server = False
+is_server = True
 if is_server is False:
-    sql_data_path = "../data_test/solemon.db"
+    sql_data_path = "../data/solemon.db"
 else:
     sql_data_path = '../data/solemon.db'
-token = "6995093181:AAGJ-mIQe7THWhQzL1Ylqk6UO8MMln83uZg" #test bot token
-bot_nickname = "sxlmn_bot" #test bot nickname
+token = "5688874879:AAFC8QwvSX9F4Cbs9lN7dBETbTSu2VF0_-U" #main bot token
+bot_nickname = "Solemon_Shop_Bot"
