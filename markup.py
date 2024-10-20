@@ -5,15 +5,14 @@ from aiogram import types
 # --- Main Menu ---
 mainMenu_btns = [
     [
-        types.KeyboardButton(text = "Моя скидочка 💸")
+        types.KeyboardButton(text = "Мой профиль")
     ],
+    #[
+    #    types.KeyboardButton(text = "Моя скидочка 💸")
+    #],
     [
         types.KeyboardButton(text = "ТОП 🔝"), 
-        types.KeyboardButton(text = "О нас")
-    ],
-    [
         types.KeyboardButton(text = "Правила"),
-        types.KeyboardButton(text = "Support/Help")
     ],
     [
         types.KeyboardButton(text = "Скупка устройств 🛍"),
@@ -21,6 +20,9 @@ mainMenu_btns = [
     ],
     [
         types.KeyboardButton(text = "Реферальная система")
+    ],
+    [
+        types.KeyboardButton(text = "Еженедельный розыгрыш")
     ]
 ]
 

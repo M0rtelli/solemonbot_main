@@ -6,6 +6,7 @@ from aiogram.fsm.context import FSMContext
 
 import time
 import logging
+import asyncio
 
 import markup as markup
 import app.classes as classes
@@ -49,6 +50,16 @@ async def handle_start(message: Message):
             except:
                 pass
             base.conn.commit()
+
+            localdata.localUsers.insert(len(localdata.localUsers), {
+                  "username":f'@{message.from_user.username}',
+                  "userid":f'{message.from_user.id}',
+                  "discount":'0',
+                  "position_all":'0',
+                  "position_month":'0',
+                  "temp_discount":'0',
+                  "top_discount":'0'
+            })
         
         await function.check_change_username(message)
         # await message.answer(text="[BD]: Запрос отправлен. Результаты в терминале.")
@@ -104,7 +115,27 @@ async def handle_sendall(message: Message, state: FSMContext):
 async def handle_sendall(message: Message, state: FSMContext):
     if message.chat.id == 654148701:
         message.answer("чяс")
-            
+
+@router.message(Command("makeupdate"))
+async def handle_sendall(message: Message, state: FSMContext):
+    if message.chat.id == 654148701:
+        count = 0
+        count_all = 0
+        text = "А всем пламенный привет! 🦜🦜\n\n\
+Завезли обнову в бота, заходим в <a href='https://t.me/so1emon'>канал</a> смотрим информацию.\n\n"
+        try:
+            for row in range(len(localdata.localUsers)):
+                
+                if await function.send_message_to_users_handler( int( localdata.localUsers[row]["userid"] ) , text, False, message):
+                # print(f'user - {localdata.localUsers[row]["userid"]}')
+                    count += 1
+                count_all += 1
+                # 20 messages per second (Limit: 30 messages per second)
+                await asyncio.sleep(.05)
+        finally:
+            logging.info(f"{count} messages successful sent.")
+            await message.answer(f"{count} из {count_all} сообщений успешно отправлено.")
+
 
 @router.message(Command("regsql"))
 async def handle_help(message: types.Message):
@@ -124,6 +155,13 @@ async def handle_gettime(message: types.Message):
     if message.from_user.id == 654148701:
         current_time = time.time()
         print(current_time)
+
+@router.message(Command("startcontest"))
+async def startcontest(message: types.Message):
+    if message.from_user.id == 654148701:
+        await message.answer(text = "Событие успешно запущено!")
+        await function.makeContestResults()
+        
 
 @router.message(Command("settimediscount")) 
 async def handle_gettime(message: types.Message):

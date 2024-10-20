@@ -5,6 +5,7 @@ from aiogram.exceptions import TelegramBadRequest
 
 import logging
 import asyncio
+import random
 
 import markup as markup
 import app.classes as classes
@@ -116,6 +117,11 @@ async def callbacks_num(callback: types.CallbackQuery):
         top_discount = base.cursor.execute(f"SELECT top_discount FROM users WHERE userid = \'{userId}\' LIMIT 1").fetchone()[0]
 
         if action == "incr": # выдача +1 покупки
+            # give contest number
+            giveNumber = base.cursor.execute("SELECT id FROM contest_info ORDER BY id DESC LIMIT 1;").fetchone()[0] + 1
+            base.cursor.execute(f"INSERT INTO contest_info (uid, number_contest, winner) VALUES ({userId}, {giveNumber}, 0)")
+            base.conn.commit()
+
             try:
                 position_all += 1
                 position_month += 1
@@ -124,7 +130,7 @@ async def callbacks_num(callback: types.CallbackQuery):
                 base.cursor.execute(f"UPDATE users SET position_month = position_month + 1 WHERE userid = {userId}")
                 try:
                     await callback.bot.send_message(chat_id = userId, text = f"<b>@{callback.from_user.username} выдал Вам +1 покупку</b>\n\n\
-Благодарим Вас за покупку!", parse_mode = "html")
+Благодарим Вас!", parse_mode = "html")
                 except:
                     pass
             except:
@@ -162,6 +168,9 @@ async def callbacks_num(callback: types.CallbackQuery):
                     await callback.bot.send_message(chat_id = userId, text = f"<b>Ваша временная скидка была потрачена!</b>", parse_mode = "html")
                 except:
                     pass
+
+            
+            
 
             
 
