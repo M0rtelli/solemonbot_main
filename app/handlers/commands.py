@@ -96,7 +96,10 @@ async def handle_help(message: Message):
             base.conn.commit()
             # await message.bot.send_message(chat_id = -4113748904, text = text, parse_mode = "html")
             await message.answer(text = text, parse_mode = "html")
-            await message.answer(text = "Топ успешно обнулён.")
+            await message.answer(text = "Топ успешно обнулён. Обнуляем барахолку.")
+
+            base.cursor.execute(f'DELETE FROM marketplace;')
+            base.conn.commit()
 
 @router.message(Command("delkeyboard"))
 async def handle_help(message: Message):

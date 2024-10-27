@@ -128,12 +128,12 @@ async def getProfileText(message: types.Message):
             _, username, _, discount, position_all, position_month, temp_discount, top_discount = row
 
             alltext += f"<code>Ваша основная скидка:</code><b> {discount}</b>\n"
-            alltext += f"<code>Дополнительные скидки:</code><b> { f'{top_discount}% (до конца месяца)' if int(top_discount) > 0 else ''}\
+            alltext += f"<code>Доп. скидки:</code><b> { f'{top_discount}% (до конца месяца)' if int(top_discount) > 0 else ''}\
 {f', {temp_discount}% (одноразовая)' if int(temp_discount) > 0 and (top_discount) > 0 else f'{temp_discount}% (одноразовая)' if int(temp_discount) > 0 else 'отсутствуют' if int(temp_discount) <= 0 and int(top_discount) <= 0 else '' }</b>\n"
-            alltext += f"<code>Всего покупок:</code><b> {position_all} шт., {position_month} из которых в этом месяце</b>\n"
+            alltext += f"<code>Всего покупок:</code><b> {position_all} шт., {position_month} в этом месяце</b>\n"
             alltext += f"<code>Место в топе:</code><b> {topPosition}</b>\n"
-            alltext += f"<code>Количество объявлений на барахолке:</code><b> {countMarketAds}</b>\n"
-            alltext += f"<code>Номерки еженедельного розыгрыша:</code><b> {numbersContest if numbersContest != '' else 'отсутствуют'}</b>\n"
+            alltext += f"<code>Объявлений на барахолке:</code><b> {countMarketAds}</b>\n"
+            alltext += f"<code>Билеты р-грыша:</code><b> {numbersContest if numbersContest != '' else 'отсутствуют'}</b>\n"
             alltext += f"<code>Рефералы:</code> {await get_referal_text(message, 1)}"
             
     return alltext
