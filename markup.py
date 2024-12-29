@@ -5,6 +5,9 @@ from aiogram import types
 # --- Main Menu ---
 mainMenu_btns = [
     [
+        types.KeyboardButton(text = "🔥КОНКУРС🔥")
+    ],
+    [
         types.KeyboardButton(text = "Мой профиль")
     ],
     #[

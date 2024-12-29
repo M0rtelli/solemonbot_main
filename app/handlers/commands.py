@@ -125,7 +125,7 @@ async def handle_sendall(message: Message, state: FSMContext):
         count = 0
         count_all = 0
         text = "А всем пламенный привет! 🦜🦜\n\n\
-Завезли обнову в бота, заходим в <a href='https://t.me/so1emon'>канал</a> смотрим информацию.\n\n"
+Завезли вам конкурс, тапаем по <a href='https://t.me/so1emon/'>ссылочке</a> и смотрим информацию.\n\n" 
         try:
             for row in range(len(localdata.localUsers)):
                 

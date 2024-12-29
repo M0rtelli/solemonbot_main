@@ -161,6 +161,18 @@ async def button_top(message: types.Message, state: FSMContext):
                     resize_keyboard=True,
                 ),
             )
+        
+@router.message(F.text.lower() == "🔥конкурс🔥")
+async def button_top(message: types.Message, state: FSMContext):
+    if message.from_user.id == message.chat.id:
+        await function.check_change_username(message)
+        selectAnswer = [
+            [
+                types.InlineKeyboardButton(text="Участвость", callback_data = f"contest_start"),
+            ]    
+        ]
+        keyboard = types.InlineKeyboardMarkup(inline_keyboard = selectAnswer)
+        await message.answer(text = texts.contestTextStart, parse_mode = "html", reply_markup = keyboard, disable_web_page_preview=True)
 
     # ----- ADMIN BUTTONS ---------
 
@@ -237,11 +249,31 @@ async def button_top(message: types.Message, state: FSMContext):
 @router.callback_query(F.data.startswith("contest_"))
 async def callbacks_num(callback: types.CallbackQuery):
     action = callback.data.split("_")[1]
+    chatsToSubscribe = [-1001775075732, -1001963325790, -1002078612203]
+    subs = 0
 
     if action == "yes":
 
         await callback.message.edit_text(text = "Событие успешно запущено!", reply_markup = None)
         await function.makeContestResults()
+    elif action == "start":
+        for i in range(len(chatsToSubscribe)):
+            user_channel_status = await callback.bot.get_chat_member(chat_id=chatsToSubscribe[i], user_id=654148701)
+            if user_channel_status.status != 'left':
+                subs += 1
+            
+        if subs == len(chatsToSubscribe):
+            justInContest = base.cursor.execute(f"SELECT in_contest FROM users WHERE userid = {callback.from_user.id} LIMIT 1;").fetchone()[0]
+            if int(justInContest) == 0:
+                base.cursor.execute(f"UPDATE users SET in_contest = 1 WHERE userid = {callback.from_user.id}")
+                base.conn.commit()
+                await callback.message.answer( text = "Вы успешно приняли участие в конкурсе!")
+                
+            else: 
+                await callback.message.answer( text = "Вы уже принимаете участие в конкурсе!")
+        else:
+            await callback.message.answer( text = 'Вы еще не подписались на все каналы!' )
+    
     else:
         await callback.message.edit_text(text = "Внесите покупки пользователей в базу и введите /startcontest", reply_markup = None)
 
